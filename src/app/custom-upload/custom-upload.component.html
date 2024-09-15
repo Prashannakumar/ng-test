@@ -37,40 +37,41 @@
 
 <hr>
 
-<h1>Video</h1>
+<h1>Multiple</h1>
 
 <div
   class="file-upload-wrapper"
   [class.success]="uploadSuccess"
   [class.error]="uploadError"
-  (drop)="onFileDrop($event)"
-  (dragover)="onDragOver($event)"
-  (click)="fileInput.click()"
+  (drop)="onFileDrop($event, 'multiple')"
+  (dragover)="onDragOver($event, 'multiple')"
+  (click)="fileInputMultiple.click()"
 >
   <input
     type="file"
-    accept="video/*"
-    (change)="onFileChange($event)"
+    accept="image/*"
+    (change)="onFileChange($event, 'multiple')"
+    multiple
     hidden
-    #fileInput
+    #fileInputMultiple
   />
   <div class="file-dropper">
     <mat-icon>upload</mat-icon>
     <p>Drag and drop or click</p>
   </div>
 </div>
-<div *ngIf="imageName()">
-  <div *ngIf="selectedFile || imagePreview">
+<div *ngIf="selectedImageFiles && selectedImageFiles.length > 0">
+  <div *ngFor="let image of selectedImageFiles; index as i">
     <img
-      [src]="imagePreview()"
+      [src]="image.imagePreview"
       alt="Image Preview"
       class="image-preview"
     />
     <p>
-      <span class="image-name">{{ imageName() }}</span> ({{
-        fileSize()
+      <span class="image-name">{{ image.imageName }}</span> ({{
+        image.fileSize
       }} KB)
     </p>
-    <mat-icon class="delete-icon" (click)="removeImage()">delete</mat-icon>
+    <mat-icon class="delete-icon" (click)="removeImage({index: i, data: image})">delete</mat-icon>
   </div>
 </div>
