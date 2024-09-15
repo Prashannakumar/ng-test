@@ -1,3 +1,4 @@
+<h1>Image</h1>
 <div
   class="file-upload-wrapper"
   [class.success]="uploadSuccess"
@@ -9,6 +10,44 @@
   <input
     type="file"
     accept="image/*"
+    (change)="onFileChange($event)"
+    hidden
+    #fileInput
+  />
+  <div class="file-dropper">
+    <mat-icon>upload</mat-icon>
+    <p>Drag and drop or click</p>
+  </div>
+</div>
+<div *ngIf="imageName()">
+  <div *ngIf="selectedFile || imagePreview">
+    <img
+      [src]="imagePreview()"
+      alt="Image Preview"
+      class="image-preview"
+    />
+    <p>
+      <span class="image-name">{{ imageName() }}</span> ({{
+        fileSize()
+      }} KB)
+    </p>
+    <mat-icon class="delete-icon" (click)="removeImage()">delete</mat-icon>
+  </div>
+</div>
+
+<h1>Video</h1>
+
+<div
+  class="file-upload-wrapper"
+  [class.success]="uploadSuccess"
+  [class.error]="uploadError"
+  (drop)="onFileDrop($event)"
+  (dragover)="onDragOver($event)"
+  (click)="fileInput.click()"
+>
+  <input
+    type="file"
+    accept="video/*"
     (change)="onFileChange($event)"
     hidden
     #fileInput
